@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DESO-IA — Intelligence artificielle responsable</title>
+  <meta name="description" content="DESO-IA accompagne les organisations dans l'intégration concrète et responsable de l'intelligence artificielle. Formations PMI-CPMAI, ateliers sur mesure et gestion de projets IA." />
+  <style>
+    /* ── Variables ─────────────────────────────────────────────── */
+    :root {
+      --navy:   #1B2D8F;
+      --orange: #F47920;
+      --light:  #F8F9FC;
+      --white:  #FFFFFF;
+      --text:   #1A1A2E;
+      --muted:  #5A5A7A;
+      --border: #E0E4F0;
+      --radius: 10px;
+      --shadow: 0 4px 24px rgba(27,45,143,.08);
+    }
+
+    /* ── Reset ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: var(--navy); text-decoration: none; }
+    a:hover { color: var(--orange); }
+
+    /* ── Language Toggle Logic ─────────────────────────────────── */
+    body.lang-en .fr { display: none; }
+    body.lang-fr .en { display: none; }
+
+    /* ── Layout helpers ────────────────────────────────────────── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 80px 0; }
+    .section-alt { background: var(--light); }
+
+    /* ── Header / Nav ──────────────────────────────────────────── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(27,45,143,.06);
+    }
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 24px; max-width: 1100px; margin: 0 auto; gap: 16px;
+    }
+    .nav-logo img { height: 56px; width: auto; }
+    .nav-links {
+      display: flex; align-items: center; gap: 8px;
+      list-style: none; flex-wrap: wrap;
+    }
+    .nav-links a {
+      padding: 6px 14px; border-radius: 6px; font-weight: 500;
+      color: var(--navy); font-size: .95rem; transition: background .2s, color .2s;
+    }
+    .nav-links a:hover { background: var(--light); color: var(--orange); }
+    .nav-links .cta-link {
+      background: var(--orange); color: var(--white) !important;
+      border-radius: 6px; padding: 7px 18px;
+    }
+    .nav-links .cta-link:hover { background: #d96a10; }
+
+    /* Language switcher */
+    .lang-switch {
+      display: flex; gap: 0; border: 1.5px solid var(--navy); border-radius: 6px;
+      overflow: hidden; flex-shrink: 0;
+    }
+    .lang-switch button {
+      padding: 5px 12px; border: none; background: none;
+      font-size: .85rem; font-weight: 600; cursor: pointer;
+      color: var(--navy); transition: background .2s, color .2s;
+    }
+    .lang-switch button.active { background: var(--navy); color: var(--white); }
+    .lang-switch button:hover:not(.active) { background: var(--light); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      width: 24px; height: 2px; background: var(--navy);
+      border-radius: 2px; transition: transform .3s, opacity .3s;
+    }
+
+    /* ── Hero ──────────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #0d1b6e 100%);
+      color: var(--white);
+      padding: 100px 24px 90px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(244,121,32,.2); color: var(--orange);
+      border: 1px solid var(--orange); border-radius: 40px;
+      padding: 5px 18px; font-size: .85rem; font-weight: 600;
+      letter-spacing: .04em; margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800; line-height: 1.2;
+      margin-bottom: 24px; color: var(--white);
+    }
+    .hero h1 span { color: var(--orange); }
+    .hero p {
+      font-size: clamp(1rem, 2.5vw, 1.18rem);
+      max-width: 720px; margin: 0 auto 40px;
+      color: rgba(255,255,255,.82); line-height: 1.7;
+    }
+    .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: 13px 30px;
+      border-radius: 8px; font-weight: 700; font-size: 1rem;
+      cursor: pointer; transition: transform .15s, box-shadow .15s;
+      border: 2px solid transparent;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.18); }
+    .btn-primary { background: var(--orange); color: var(--white); border-color: var(--orange); }
+    .btn-primary:hover { background: #d96a10; }
+    .btn-outline { background: transparent; color: var(--white); border-color: rgba(255,255,255,.5); }
+    .btn-outline:hover { border-color: var(--white); }
+
+    /* ── Section headings ──────────────────────────────────────── */
+    .section-label {
+      font-size: .8rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 10px;
+    }
+    h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 800; color: var(--navy); margin-bottom: 16px;
+    }
+    .lead {
+      font-size: 1.08rem; color: var(--muted); max-width: 700px; line-height: 1.75;
+    }
+
+    /* ── About ─────────────────────────────────────────────────── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+      align-items: center; margin-top: 48px;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 16px; line-height: 1.75; }
+    .about-text strong { color: var(--navy); }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    .stat-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px 20px;
+      box-shadow: var(--shadow); text-align: center;
+    }
+    .stat-card .stat-num {
+      font-size: 2rem; font-weight: 800; color: var(--orange); line-height: 1;
+    }
+    .stat-card .stat-label {
+      font-size: .85rem; color: var(--muted); margin-top: 6px; line-height: 1.4;
+    }
+
+    /* ── Services ──────────────────────────────────────────────── */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 48px;
+    }
+    .service-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px 28px;
+      box-shadow: var(--shadow); transition: transform .2s, box-shadow .2s;
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(27,45,143,.12); }
+    .service-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--navy), #2d44c8);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 20px;
+    }
+    .service-card h3 {
+      font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 12px;
+    }
+    .service-card p { color: var(--muted); font-size: .95rem; line-height: 1.65; }
+
+    /* Modules table */
+    .modules-table {
+      width: 100%; border-collapse: collapse; margin-top: 24px;
+      font-size: .9rem;
+    }
+    .modules-table th {
+      background: var(--navy); color: var(--white);
+      padding: 10px 14px; text-align: left; font-weight: 600;
+    }
+    .modules-table th:first-child { border-radius: 8px 0 0 0; }
+    .modules-table th:last-child { border-radius: 0 8px 0 0; }
+    .modules-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .modules-table tr:last-child td { border-bottom: none; }
+    .modules-table tr:nth-child(even) td { background: var(--light); }
+    .modules-table .phase-badge {
+      display: inline-block; background: var(--orange); color: var(--white);
+      border-radius: 4px; padding: 2px 8px; font-size: .75rem; font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .service-full {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px 32px;
+      box-shadow: var(--shadow); margin-top: 28px;
+    }
+    .service-full h3 {
+      font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 12px;
+    }
+    .service-full p { color: var(--muted); font-size: .95rem; line-height: 1.7; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .tag {
+      background: var(--light); border: 1px solid var(--border);
+      color: var(--navy); font-size: .82rem; font-weight: 600;
+      padding: 4px 12px; border-radius: 20px;
+    }
+
+    .certs { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px; }
+    .cert {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--light); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px; flex: 1; min-width: 220px;
+    }
+    .cert-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .cert-body strong { display: block; color: var(--navy); font-size: .95rem; }
+    .cert-body span { color: var(--muted); font-size: .85rem; }
+
+    /* ── Contact ───────────────────────────────────────────────── */
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+      align-items: start; margin-top: 48px;
+    }
+    .contact-info p { color: var(--muted); margin-bottom: 28px; line-height: 1.75; }
+    .contact-item {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+    }
+    .contact-item-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--navy), #2d44c8);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white); font-size: 1.1rem; flex-shrink: 0;
+    }
+    .contact-item-text strong { display: block; color: var(--navy); font-size: .85rem; font-weight: 600; }
+    .contact-item-text a, .contact-item-text span { color: var(--text); font-size: .98rem; }
+    .contact-form {
+      background: var(--light); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px 32px;
+    }
+    .contact-form h3 { font-size: 1.1rem; color: var(--navy); font-weight: 700; margin-bottom: 22px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: .85rem; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 10px 14px;
+      border: 1.5px solid var(--border); border-radius: 6px;
+      font-size: .95rem; font-family: inherit; color: var(--text);
+      background: var(--white); transition: border-color .2s;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      outline: none; border-color: var(--navy);
+    }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-submit {
+      width: 100%; padding: 12px; background: var(--orange); color: var(--white);
+      border: none; border-radius: 8px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: background .2s;
+    }
+    .form-submit:hover { background: #d96a10; }
+
+    /* ── Footer ────────────────────────────────────────────────── */
+    footer {
+      background: var(--navy); color: rgba(255,255,255,.7);
+      padding: 48px 24px 28px;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; justify-content: space-between;
+      gap: 32px; padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+    .footer-brand img { height: 48px; margin-bottom: 14px; }
+    .footer-brand p { font-size: .88rem; max-width: 280px; line-height: 1.65; }
+    .footer-links h4 { color: var(--white); font-size: .9rem; font-weight: 700; margin-bottom: 14px; }
+    .footer-links ul { list-style: none; }
+    .footer-links li { margin-bottom: 8px; }
+    .footer-links a { color: rgba(255,255,255,.65); font-size: .88rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--orange); }
+    .footer-bottom {
+      max-width: 1100px; margin: 24px auto 0;
+      display: flex; flex-wrap: wrap; justify-content: space-between;
+      align-items: center; gap: 12px; font-size: .82rem;
+    }
+    .footer-bottom span { color: rgba(255,255,255,.45); }
+    .footer-bottom a { color: var(--orange); }
+
+    /* ── Divider ───────────────────────────────────────────────── */
+    .divider { width: 48px; height: 4px; background: var(--orange); border-radius: 2px; margin: 16px 0 32px; }
+
+    /* ── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 36px; }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 680px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; flex-direction: column; position: absolute;
+        top: 100%; left: 0; right: 0; background: var(--white);
+        border-bottom: 1px solid var(--border);
+        padding: 16px 24px; gap: 4px; box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+      .nav-links.open { display: flex; }
+      .nav-links a { display: block; padding: 10px 14px; }
+      .hamburger { display: flex; }
+      .hero { padding: 72px 20px 64px; }
+      .service-full { padding: 24px 20px; }
+      .contact-form { padding: 24px 20px; }
+      .modules-table { font-size: .82rem; }
+      .modules-table th, .modules-table td { padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body class="lang-fr">
+
+<!-- ══════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════ -->
+<header>
+  <nav>
+    <a href="#" class="nav-logo" aria-label="DESO-IA">
+      <img src="assets/logo.png" alt="DESO-IA" />
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" class="fr">À propos</a><a href="#about" class="en">About</a></li>
+      <li><a href="#services" class="fr">Services</a><a href="#services" class="en">Services</a></li>
+      <li><a href="#contact" class="fr">Contact</a><a href="#contact" class="en">Contact</a></li>
+      <li><a href="#contact" class="cta-link fr">Nous joindre</a><a href="#contact" class="cta-link en">Get in touch</a></li>
+    </ul>
+
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="lang-switch" role="group" aria-label="Langue / Language">
+        <button id="btn-fr" class="active" onclick="setLang('fr')">FR</button>
+        <button id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- ══════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════ -->
+<section class="hero" id="top">
+  <div class="fr">
+    <div class="hero-badge">Certifié PMI-CPMAI &amp; PMP</div>
+    <h1>L'IA au service de votre<br><span>organisation</span></h1>
+    <p>DESO-IA accompagne les organisations dans l'intégration concrète et responsable de l'intelligence artificielle — des formations structurées qui transforment les initiatives d'IA en résultats mesurables.</p>
+    <div class="hero-cta">
+      <a href="#services" class="btn btn-primary">Nos services</a>
+      <a href="#contact" class="btn btn-outline">Nous contacter</a>
+    </div>
+  </div>
+  <div class="en">
+    <div class="hero-badge">PMI-CPMAI &amp; PMP Certified</div>
+    <h1>AI that works for your<br><span>organization</span></h1>
+    <p>DESO-IA guides organizations through the concrete, responsible integration of artificial intelligence — structured training that turns AI initiatives into measurable results.</p>
+    <div class="hero-cta">
+      <a href="#services" class="btn btn-primary">Our services</a>
+      <a href="#contact" class="btn btn-outline">Contact us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     ABOUT
+══════════════════════════════════════════════ -->
+<section class="section" id="about">
+  <div class="container">
+
+    <div class="fr">
+      <div class="section-label">À propos</div>
+      <h2>Une approche structurée, des résultats concrets</h2>
+      <div class="divider"></div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>DESO-IA accompagne les organisations dans l'intégration <strong>concrète et responsable</strong> de l'intelligence artificielle. Nos formations et notre support en gestion de projets s'appuient sur la méthodologie <strong>PMI-CPMAI</strong> (Cognitive Project Management for AI), une approche structurée reconnue mondialement.</p>
+          <p>Conçues pour être <strong>accessibles, applicables immédiatement</strong> et adaptées à la réalité de chaque groupe, nos formations s'adressent aux dirigeants, gestionnaires, équipes opérationnelles et étudiants.</p>
+          <p>Que vous souhaitiez comprendre les possibilités de l'IA, structurer vos projets ou déployer des solutions en production, DESO-IA vous accompagne à chaque étape.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-num">30+</div>
+            <div class="stat-label">ans d'expérience terrain en gestion de projets</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">7</div>
+            <div class="stat-label">modules de formation progressifs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">PMI</div>
+            <div class="stat-label">Certifié CPMAI &amp; PMP — reconnaissance mondiale</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Programmes entièrement sur mesure</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="en">
+      <div class="section-label">About</div>
+      <h2>A structured approach, tangible results</h2>
+      <div class="divider"></div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>DESO-IA guides organizations through the <strong>concrete, responsible</strong> integration of artificial intelligence. Our training and project management support are built on the <strong>PMI-CPMAI</strong> methodology (Cognitive Project Management for AI), a globally recognized structured approach.</p>
+          <p>Designed to be <strong>accessible, immediately actionable</strong>, and adapted to each group's reality, our programs serve executives, managers, operational teams, and students alike.</p>
+          <p>Whether you want to understand AI's possibilities, structure your projects, or deploy solutions to production — DESO-IA is with you every step of the way.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-num">30+</div>
+            <div class="stat-label">years of hands-on project management experience</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">7</div>
+            <div class="stat-label">progressive training modules</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">PMI</div>
+            <div class="stat-label">CPMAI &amp; PMP Certified — global recognition</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Fully customized programs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SERVICES
+══════════════════════════════════════════════ -->
+<section class="section section-alt" id="services">
+  <div class="container">
+
+    <!-- ── FRENCH ── -->
+    <div class="fr">
+      <div class="section-label">Services</div>
+      <h2>Ce que nous offrons</h2>
+      <div class="divider"></div>
+      <p class="lead">Trois offres complémentaires pour accompagner votre organisation à chaque étape de son parcours IA.</p>
+
+      <!-- Card row -->
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🎓</div>
+          <h3>Formation de perfectionnement à la carte</h3>
+          <p>Sept modules structurés, utilisables indépendamment ou en parcours progressif — de la gouvernance IA jusqu'au déploiement en production.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🛠</div>
+          <h3>Formations et ateliers sur mesure</h3>
+          <p>Programmes adaptés au profil des participants et aux objectifs de votre organisation, livrés en mode intensif ou étalé.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📊</div>
+          <h3>Gestion de projets IA</h3>
+          <p>Accompagnement et support de projets d'IA, de la définition des besoins jusqu'à l'opérationnalisation, par un expert certifié PMP &amp; PMI-CPMAI.</p>
+        </div>
+      </div>
+
+      <!-- Module table -->
+      <div class="service-full">
+        <h3>Les 7 modules — Formation à la carte</h3>
+        <p>Chaque module peut être suivi seul ou dans l'ordre pour un parcours complet PMI-CPMAI.</p>
+        <table class="modules-table" role="table">
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>Titre</th>
+              <th>Contenu sommaire</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="phase-badge">Intro</span></td>
+              <td><strong>Intégrer l'IA avec confiance</strong></td>
+              <td>Comprendre l'IA, ses possibilités et ses limites ; identifier des occasions d'application ; évaluer les bénéfices et les risques ; établir une structure de gouvernance.</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge">Phase I</span></td>
+              <td><strong>Comprendre les besoins d'affaires</strong></td>
+              <td>Définir les objectifs, les parties prenantes et les critères de succès ; aligner la vision sur la stratégie organisationnelle.</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge">Phase II</span></td>
+              <td><strong>Comprendre les données disponibles</strong></td>
+              <td>Explorer, évaluer et documenter les sources de données ; identifier les lacunes et les enjeux de qualité.</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge">Phase III</span></td>
+              <td><strong>Préparer les données pour l'IA</strong></td>
+              <td>Sélectionner, nettoyer et structurer les données ; gérer les enjeux de confidentialité, d'éthique et de gouvernance.</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge">Phase IV</span></td>
+              <td><strong>Développement du modèle IA</strong></td>
+              <td>Choisir les approches adaptées ; comprendre le rôle du gestionnaire dans le cycle de développement ; collaborer efficacement avec les équipes techniques.</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge">Phase V</span></td>
+              <td><strong>Évaluer les résultats du modèle</strong></td>
+              <td>Interpréter les résultats ; valider la performance en contexte réel ; décider de la suite — améliorer, déployer ou reconsidérer.</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge">Phase VI</span></td>
+              <td><strong>Déployer et opérationnaliser l'IA</strong></td>
+              <td>Planifier l'intégration opérationnelle ; gérer le changement ; assurer la pérennité et la gouvernance de la solution en production.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Custom workshops -->
+      <div class="service-full">
+        <h3>Formations et ateliers sur mesure</h3>
+        <p>Des programmes adaptés spécifiquement au profil des participants et aux objectifs de l'organisation partenaire. Chaque formation sur mesure peut combiner plusieurs modules, être enrichie d'exercices pratiques sectoriels et être offerte en mode intensif ou étalé.</p>
+        <div class="tags">
+          <span class="tag">Ateliers pratiques sur cas réels</span>
+          <span class="tag">Dirigeants &amp; gestionnaires</span>
+          <span class="tag">Équipes opérationnelles</span>
+          <span class="tag">Étudiants</span>
+          <span class="tag">Matériel pédagogique clé en main</span>
+        </div>
+      </div>
+
+      <!-- PM certs -->
+      <div class="service-full">
+        <h3>Gestion de projets IA — Expertise certifiée</h3>
+        <p>Un accompagnement rigoureux basé sur 30+ ans d'expérience en gestion de projets, opérations, qualité et développement des affaires dans les secteurs industriels, commerciaux, publics et parapublics.</p>
+        <div class="certs">
+          <div class="cert">
+            <div class="cert-icon">🏅</div>
+            <div class="cert-body">
+              <strong>PMI-CPMAI Certifié</strong>
+              <span>Cognitive Project Management for AI — certification reconnue mondialement</span>
+            </div>
+          </div>
+          <div class="cert">
+            <div class="cert-icon">📈</div>
+            <div class="cert-body">
+              <strong>PMP Certifié</strong>
+              <span>Project Management Professional — 30+ ans d'expérience terrain</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ENGLISH ── -->
+    <div class="en">
+      <div class="section-label">Services</div>
+      <h2>What we offer</h2>
+      <div class="divider"></div>
+      <p class="lead">Three complementary offerings to support your organization at every stage of its AI journey.</p>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🎓</div>
+          <h3>Modular professional development</h3>
+          <p>Seven structured modules, usable independently or as a progressive pathway — from AI governance to production deployment.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🛠</div>
+          <h3>Custom training &amp; workshops</h3>
+          <p>Programs tailored to your participants' profiles and organization's objectives, delivered in intensive or extended format.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📊</div>
+          <h3>AI project management</h3>
+          <p>End-to-end project support — from needs definition to operationalization — by a PMP &amp; PMI-CPMAI certified expert.</p>
+        </div>
+      </div>
+
+      <div class="service-full">
+        <h3>The 7 modules — Modular training</h3>
+        <p>Each module can be taken individually or in sequence for a complete PMI-CPMAI learning path.</p>
+        <table class="modules-table" role="table">
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>Title</th>
+              <th>Summary</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="phase-badge">Intro</span></td>
+              <td><strong>Integrating AI with confidence</strong></td>
+              <td>Understanding AI, its possibilities and limits; identifying application opportunities; assessing benefits and risks; establishing a governance structure.</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge">Phase I</span></td>
+              <td><strong>Understanding business needs</strong></td>
+              <td>Defining objectives, stakeholders, and success criteria; aligning vision with organizational strategy.</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge">Phase II</span></td>
+              <td><strong>Understanding available data</strong></td>
+              <td>Exploring, evaluating, and documenting data sources; identifying gaps and quality issues.</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge">Phase III</span></td>
+              <td><strong>Preparing data for AI</strong></td>
+              <td>Selecting, cleaning, and structuring data; managing privacy, ethics, and governance challenges.</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge">Phase IV</span></td>
+              <td><strong>AI model development</strong></td>
+              <td>Choosing the right approaches; understanding the manager's role in the development cycle; collaborating with technical teams.</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge">Phase V</span></td>
+              <td><strong>Evaluating model results</strong></td>
+              <td>Interpreting results; validating performance in real context; deciding next steps — improve, deploy, or reconsider.</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge">Phase VI</span></td>
+              <td><strong>Deploying &amp; operationalizing AI</strong></td>
+              <td>Planning operational integration; managing change; ensuring sustainability and governance of the production solution.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="service-full">
+        <h3>Custom training &amp; workshops</h3>
+        <p>Programs specifically adapted to participants' profiles and the partner organization's goals. Each custom training can combine multiple modules, be enriched with sector-specific practical exercises, and be delivered in intensive or extended format.</p>
+        <div class="tags">
+          <span class="tag">Hands-on workshops with real cases</span>
+          <span class="tag">Executives &amp; managers</span>
+          <span class="tag">Operational teams</span>
+          <span class="tag">Students</span>
+          <span class="tag">Ready-to-use learning materials</span>
+        </div>
+      </div>
+
+      <div class="service-full">
+        <h3>AI project management — Certified expertise</h3>
+        <p>Rigorous support backed by 30+ years of experience in project management, operations, quality, and business development across industrial, commercial, public, and parapublic sectors.</p>
+        <div class="certs">
+          <div class="cert">
+            <div class="cert-icon">🏅</div>
+            <div class="cert-body">
+              <strong>PMI-CPMAI Certified</strong>
+              <span>Cognitive Project Management for AI — globally recognized certification</span>
+            </div>
+          </div>
+          <div class="cert">
+            <div class="cert-icon">📈</div>
+            <div class="cert-body">
+              <strong>PMP Certified</strong>
+              <span>Project Management Professional — 30+ years of hands-on experience</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CONTACT
+══════════════════════════════════════════════ -->
+<section class="section" id="contact">
+  <div class="container">
+
+    <div class="fr">
+      <div class="section-label">Contact</div>
+      <h2>Parlons de votre projet</h2>
+      <div class="divider"></div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p>Vous avez un projet, une question ou souhaitez en savoir plus sur nos formations ? Nous sommes là pour vous accompagner.</p>
+          <div class="contact-item">
+            <div class="contact-item-icon">✉</div>
+            <div class="contact-item-text">
+              <strong>Courriel</strong>
+              <a href="mailto:jld@deso-ia.com">jld@deso-ia.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📞</div>
+            <div class="contact-item-text">
+              <strong>Cellulaire</strong>
+              <a href="tel:+14505226678">+1 450 522-6678</a>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form">
+          <h3>Envoyez-nous un message</h3>
+          <form action="mailto:jld@deso-ia.com" method="post" enctype="text/plain">
+            <div class="form-group">
+              <label for="name-fr">Nom</label>
+              <input type="text" id="name-fr" name="nom" placeholder="Votre nom" required />
+            </div>
+            <div class="form-group">
+              <label for="email-fr">Courriel</label>
+              <input type="email" id="email-fr" name="courriel" placeholder="votre@courriel.com" required />
+            </div>
+            <div class="form-group">
+              <label for="subject-fr">Sujet</label>
+              <select id="subject-fr" name="sujet">
+                <option value="">Choisir un sujet…</option>
+                <option>Formation à la carte</option>
+                <option>Formation sur mesure</option>
+                <option>Gestion de projets IA</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="msg-fr">Message</label>
+              <textarea id="msg-fr" name="message" placeholder="Décrivez votre besoin…"></textarea>
+            </div>
+            <button type="submit" class="form-submit">Envoyer le message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="en">
+      <div class="section-label">Contact</div>
+      <h2>Let's talk about your project</h2>
+      <div class="divider"></div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p>Have a project, a question, or want to learn more about our training programs? We're here to help.</p>
+          <div class="contact-item">
+            <div class="contact-item-icon">✉</div>
+            <div class="contact-item-text">
+              <strong>Email</strong>
+              <a href="mailto:jld@deso-ia.com">jld@deso-ia.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📞</div>
+            <div class="contact-item-text">
+              <strong>Cell</strong>
+              <a href="tel:+14505226678">+1 450 522-6678</a>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form">
+          <h3>Send us a message</h3>
+          <form action="mailto:jld@deso-ia.com" method="post" enctype="text/plain">
+            <div class="form-group">
+              <label for="name-en">Name</label>
+              <input type="text" id="name-en" name="name" placeholder="Your name" required />
+            </div>
+            <div class="form-group">
+              <label for="email-en">Email</label>
+              <input type="email" id="email-en" name="email" placeholder="you@email.com" required />
+            </div>
+            <div class="form-group">
+              <label for="subject-en">Subject</label>
+              <select id="subject-en" name="subject">
+                <option value="">Choose a subject…</option>
+                <option>Modular training</option>
+                <option>Custom training</option>
+                <option>AI project management</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="msg-en">Message</label>
+              <textarea id="msg-en" name="message" placeholder="Describe your need…"></textarea>
+            </div>
+            <button type="submit" class="form-submit">Send message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/logo.png" alt="DESO-IA" />
+      <p class="fr">Diagnostic | Expérience | Stratégie | Optimisation</p>
+      <p class="en">Diagnostic | Experience | Strategy | Optimisation</p>
+    </div>
+    <div class="footer-links">
+      <h4 class="fr">Navigation</h4>
+      <h4 class="en">Navigation</h4>
+      <ul>
+        <li><a href="#about" class="fr">À propos</a><a href="#about" class="en">About</a></li>
+        <li><a href="#services" class="fr">Services</a><a href="#services" class="en">Services</a></li>
+        <li><a href="#contact" class="fr">Contact</a><a href="#contact" class="en">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4 class="fr">Nous joindre</h4>
+      <h4 class="en">Get in touch</h4>
+      <ul>
+        <li><a href="mailto:jld@deso-ia.com">jld@deso-ia.com</a></li>
+        <li><a href="tel:+14505226678">+1 450 522-6678</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="fr">© 2025 DESO-IA. Tous droits réservés.</span>
+    <span class="en">© 2025 DESO-IA. All rights reserved.</span>
+    <a href="mailto:jld@deso-ia.com">jld@deso-ia.com</a>
+  </div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.documentElement.lang = lang;
+    document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    // Update meta description
+    const desc = {
+      fr: 'DESO-IA accompagne les organisations dans l\'intégration concrète et responsable de l\'intelligence artificielle. Formations PMI-CPMAI, ateliers sur mesure et gestion de projets IA.',
+      en: 'DESO-IA guides organizations through the concrete, responsible integration of AI. PMI-CPMAI training, custom workshops, and AI project management.'
+    };
+    document.querySelector('meta[name="description"]').content = desc[lang];
+  }
+
+  function toggleMenu() {
+    const links = document.getElementById('navLinks');
+    const btn = document.getElementById('hamburger');
+    const open = links.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  }
+
+  // Close mobile menu on nav link click
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+
+  // Detect browser language on first load
+  (function() {
+    const stored = sessionStorage.getItem('deso-lang');
+    if (stored) { setLang(stored); return; }
+    const nav = (navigator.language || navigator.userLanguage || 'fr').toLowerCase();
+    setLang(nav.startsWith('en') ? 'en' : 'fr');
+  })();
+
+  // Persist language choice within session
+  document.getElementById('btn-fr').addEventListener('click', () => sessionStorage.setItem('deso-lang', 'fr'));
+  document.getElementById('btn-en').addEventListener('click', () => sessionStorage.setItem('deso-lang', 'en'));
+</script>
+</body>
+</html>
